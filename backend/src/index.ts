@@ -11,7 +11,15 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(cors({origin: "https://credit-sea-opal.vercel.app", credentials: true})); 
+const allowedOrigins = [
+  "https://credit-sea-opal.vercel.app",
+  "http://localhost:3000", // optional: for local dev
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 
 dotenv.config();  // so that we can use process.env to access environment variables
 
