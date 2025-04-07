@@ -23,13 +23,13 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 const allowedOrigins = [
-    "https://creditSea.raghvendra.tech",
-    "http://localhost:8000", // optional: for local dev
-    "http://localhost:5173",
+    "https://creditsea.raghvendra.tech/",
 ];
 app.use((0, cors_1.default)({
     origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
 dotenv_1.default.config(); // so that we can use process.env to access environment variables
 app.use("/api", routes_1.appRouter);

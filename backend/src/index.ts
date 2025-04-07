@@ -12,14 +12,15 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const allowedOrigins = [
-  "https://creditsea.raghvendra.tech",
-  "http://localhost:8000", // optional: for local dev
-  "http://localhost:5173", 
+  "https://creditsea.raghvendra.tech/",
+  
 ];
 
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 dotenv.config();  // so that we can use process.env to access environment variables
