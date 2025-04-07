@@ -12,8 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const allowedOrigins = [
-  "https://credit-sea-opal.vercel.app",
-  "http://localhost:3000", // optional: for local dev
+  "https://creditSea.raghvendra.tech",
+  "http://localhost:8000", // optional: for local dev
+  "http://localhost:5173", 
 ];
 
 app.use(cors({

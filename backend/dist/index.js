@@ -22,7 +22,15 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cors_1.default)({ origin: "https://credit-sea-opal.vercel.app", credentials: true }));
+const allowedOrigins = [
+    "https://creditSea.raghvendra.tech",
+    "http://localhost:8000", // optional: for local dev
+    "http://localhost:5173",
+];
+app.use((0, cors_1.default)({
+    origin: allowedOrigins,
+    credentials: true,
+}));
 dotenv_1.default.config(); // so that we can use process.env to access environment variables
 app.use("/api", routes_1.appRouter);
 app.use((err, req, res, next) => {
