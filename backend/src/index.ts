@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const allowedOrigins = [
-  "https://creditSea.raghvendra.tech",
+  "https://creditsea.raghvendra.tech",
   "http://localhost:8000", // optional: for local dev
   "http://localhost:5173", 
 ];
