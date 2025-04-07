@@ -7,7 +7,7 @@ import { RequestWithUser } from "../middlewares/authMiddleware";
 export async function LoanApply(
   req: RequestWithUser,
   res: Response
-): Promise<Response> {
+): Promise<any> {
   try {
     const { customerName, amount, reason } = req.body;
     console.log("req.body in loan apply", req.body);
