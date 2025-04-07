@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.appRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const login_1 = require("../controllers/login");
+const user_1 = require("./user");
+const verifier_1 = require("./verifier");
+const admin_1 = require("./admin");
+const appRouter = express_1.default.Router();
+exports.appRouter = appRouter;
+appRouter.post('/login', login_1.login);
+appRouter.post('/signup', login_1.createUser);
+appRouter.post('/logout', authMiddleware_1.authenticateToken, login_1.logout);
+appRouter.post('/getMe', authMiddleware_1.authenticateToken, login_1.getMe);
+appRouter.use('/loan', authMiddleware_1.authenticateToken, user_1.userRoutes);
+appRouter.use('/loan/verify', authMiddleware_1.authenticateToken, verifier_1.verifierRoutes);
+appRouter.use('/loan/admin', authMiddleware_1.authenticateToken, admin_1.adminRoutes);
