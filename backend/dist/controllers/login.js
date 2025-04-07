@@ -21,6 +21,11 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { name, email, password, role } = req.body;
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const existingUser = yield db_1.prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            res.status(201).json({ id: existingUser.id, name: existingUser.name, email: existingUser.email, role: existingUser.role });
+            return;
+        }
         const user = yield db_1.prisma.user.create({
             data: {
                 name,
@@ -29,11 +34,12 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 role,
             },
         });
+        console.log("user created", user);
         if (!user) {
             res.status(400).json({ message: 'User creation failed' });
             return;
         }
-        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -56,7 +62,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
-        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+        const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',

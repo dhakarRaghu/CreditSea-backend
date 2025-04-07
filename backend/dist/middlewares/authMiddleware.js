@@ -16,6 +16,8 @@ exports.restrictTo = exports.authenticateToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const authenticateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.token;
+    console.log("token in auth middleware", token);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
     if (!token) {
         res.status(401).json({ message: 'No token provided' });
         return;
@@ -29,11 +31,12 @@ const authenticateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, 
                     resolve(decoded);
             });
         });
+        console.log("decoded in auth middleware", decoded);
         req.user = decoded;
         next();
     }
     catch (err) {
-        res.status(403).json({ message: 'Invalid or expired token' });
+        res.status(403).json({ message: 'Invalid or expired token', error: err });
     }
 });
 exports.authenticateToken = authenticateToken;
